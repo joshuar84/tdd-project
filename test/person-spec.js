@@ -1,6 +1,5 @@
 const chai = require("chai");
-const {expect} = require("chai");
-const { interface } = require("chai-spies");
+const expect = chai.expect
 const spy = require("chai-spies");
 const Person = require("../problems/person");
 chai.use(spy);
@@ -15,7 +14,7 @@ describe("Person", () => {
         person = new Person(name, age);
     });
     context("Given a class Person", () => {
-        it("should contain a name property",() => {
+        it("should contain a name property", () => {
             expect(person).to.have.property("name");
         });
         it("should contain an age property", () => {
@@ -23,9 +22,44 @@ describe("Person", () => {
         });
     });
     context("Given a prototype.sayHello()", () => {
-        it("should return a string of the person's name and a greeting message", () => {
-            let exptected = person.sayHello();
-            expect(expeted).to.be.equal(`Hello, ${name}!`);
+        it("should return a string 'Hello, person\'s name!'", () => {
+            const result = person.sayHello();
+            expect(result).to.be.equal(`Hello, Josh!`);
         });
+    });
+    context("Given a prototype.visit(otherPerson)", () => {
+        it("should return 'this.name visited otherPerson'", () => {
+            // Arrange
+            const otherPerson = new Person("Mai", 40);
+            // Act
+            const result = person.visit(otherPerson);
+            // Assert
+            expect(result).to.equal(`Josh visited Mai`);
+        })
+    });
+    context("Given a prototype.switchVisit(otherPerson)", () => {
+        it("Will invoke the visit method and pass in the otherPerson", () => {
+            // Arrange
+            const otherPerson = new Person("Mai", 40);
+            // Act
+            const result = otherPerson.switchVisit(person)
+            // Assert
+            expect(result).to.equal("Mai visited Josh");
+        })
+    })
+    context("Given a prototype.update(validObj)", () => {
+        it("Should update the instance of Person to match the values of validObj", () => {
+            // Arrange
+            let coolPerson = new Person("George", 26);
+            let validObj = { name: "Mike", age: 44 };
+            // Act
+            let result = coolPerson.update(validObj);
+            console.log(result);
+            // Assert
+            expect(result).to.equal(`{ name: "Mike", age: 44 }`)
+        })
+    });
+    context("Given a prototype.update(invalidObj)", () => {
+
     })
 });
